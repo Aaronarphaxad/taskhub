@@ -139,11 +139,17 @@ export function useGuides(organizationId: string | null) {
 
       // Cache the results
       cacheRef.current[cacheKey] = {
-        data: transformedData,
+        data: transformedData.map(guide => ({
+          ...guide,
+          category: {
+            ...guide.category,
+            organization_id: organizationId
+          }
+        })),
         timestamp: Date.now()
       };
 
-      return transformedData;
+      return cacheRef.current[cacheKey].data;
     } catch (error) {
       console.error('Error in fetchGuides:', error);
       throw error;
