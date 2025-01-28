@@ -93,10 +93,12 @@ export function useGuides(organizationId: string | null) {
           title,
           content,
           created_at,
+          updated_at,
           created_by,
           is_pinned,
           views,
-          category:categories(name, id)
+          organization_id,
+          category:categories(id, name)
         `)
         .eq('organization_id', organizationId);
 
@@ -116,25 +118,37 @@ export function useGuides(organizationId: string | null) {
         .order('views', { ascending: false })
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase query error:', error);
+        throw error;
+      }
+
+      if (!data) {
+        console.warn('No data returned from query');
+        return [];
+      }
+
+      // Add more detailed logging
+      console.log('Raw guides data:', data);
+
+      // Transform data to match Guide type
+      const transformedData = (data || []).map(guide => ({
+        ...guide,
+        category: guide.category?.[0] ?? null
+      }));
 
       // Cache the results
       cacheRef.current[cacheKey] = {
-        data: data || [],
+        data: transformedData,
         timestamp: Date.now()
       };
 
-      return data || [];
-    } catch (error: any) {
-      console.error('Error fetching guides:', error);
-      toast({
-        title: 'Error',
-        description: error.message || 'Failed to load guides',
-        variant: 'destructive',
-      });
-      return [];
+      return transformedData;
+    } catch (error) {
+      console.error('Error in fetchGuides:', error);
+      throw error;
     }
-  }, [organizationId, getCacheKey, isCacheValid, toast]);
+  }, [organizationId, getCacheKey, isCacheValid]);
 
   const updateGuides = useCallback(async () => {
     if (!organizationId) return;

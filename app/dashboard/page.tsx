@@ -167,8 +167,8 @@ export default function DashboardPage() {
     setCurrentPage(1);
   }, [searchQuery, selectedCategory]);
 
-  const handleTogglePin = async (guide: Guide, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleTogglePin = async (guide: Guide) => {
+    // e.stopPropagation();
     if (!isAdmin) return;
 
     try {
@@ -363,7 +363,7 @@ export default function DashboardPage() {
                     setNewGuideCategoryId(guide.category?.id || 'none');
                     setIsGuideDialogOpen(true);
                   }}
-                  onTogglePin={handleTogglePin}
+                  onTogglePin={(guide) => handleTogglePin(guide)}
                 />
               ))}
             </div>
@@ -419,7 +419,7 @@ export default function DashboardPage() {
                       setNewGuideCategoryId(guide.category?.id || 'none');
                       setIsGuideDialogOpen(true);
                     }}
-                    onTogglePin={handleTogglePin}
+                    onTogglePin={(guide) => handleTogglePin(guide)}
                   />
                 ))}
               </div>

@@ -24,7 +24,7 @@ export function SearchResult({ guide, onSelect }: SearchResultProps) {
             <Calendar className="h-3.5 w-3.5" />
             {format(new Date(guide.created_at), 'MMM d, yyyy')}
           </div>
-          {guide.views > 0 && (
+          {typeof guide.views === 'number' && guide.views > 0 && (
             <>
               <span className="text-xs">•</span>
               <div className="flex items-center gap-1.5">

@@ -3,8 +3,9 @@
 import { Editor } from '@tiptap/react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Bold, Italic, Underline, Heading1, Heading2, List, ListOrdered, Quote, Code, Link } from 'lucide-react';
+import { Bold, Italic, Underline as UnderlineIcon, Heading1, Heading2, List, ListOrdered, Quote, Code, Link } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Underline from '@tiptap/extension-underline';
 
 interface EditorToolbarProps {
   editor: Editor;
@@ -25,7 +26,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
       tooltip: 'Italic (⌘+I)',
     },
     {
-      icon: Underline,
+      icon: UnderlineIcon,
       command: () => editor.chain().focus().toggleUnderline().run(),
       isActive: () => editor.isActive('underline'),
       tooltip: 'Underline (⌘+U)',

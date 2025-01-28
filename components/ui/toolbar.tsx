@@ -4,6 +4,8 @@ import * as React from 'react';
 import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
 import { cn } from '@/lib/utils';
 
+declare module '@radix-ui/react-toolbar';
+
 const Toolbar = React.forwardRef<
   React.ElementRef<typeof ToolbarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ToolbarPrimitive.Root>

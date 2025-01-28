@@ -107,12 +107,12 @@ export function useEditor({ onChange, editorRef, readOnly = false }: UseEditorPr
     }
   }, [execCommand, readOnly]);
 
-  const setInitialContent = useCallback((content: string) => {
+  const setInitialContent = useCallback(async (content: string) => {
     if (!editorRef.current) return;
 
     if (readOnly) {
       // For read-only mode, convert markdown to HTML using marked
-      const html = marked(content, { breaks: true });
+      const html = await marked(content, { breaks: true });
       editorRef.current.innerHTML = html;
     } else {
       // For edit mode, convert markdown to editor-friendly HTML
